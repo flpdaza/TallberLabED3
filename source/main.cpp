@@ -1,3 +1,4 @@
+//Autores: Felipe Daza, Miguel Galleguillos
 #include <iostream>
 #include <fstream>
 #include <sstream>
