@@ -3,15 +3,16 @@
 #include <fstream>
 #include <sstream>
 #include <list>
+#include "Grafo.h"
 #include "NodoServidores.h"
 #include "Conexion.h"
+
 
 #define CONEXIONES "archivos/conexiones.csv"
 #define SERVIDORES "archivos/servidores.csv"
 
-int cantServidores;
+const int cantServidores = 299;
 list <NodoServidores*> servers;
-
 using namespace std;
 
 void leerArchivos();
@@ -20,8 +21,8 @@ void mostrarClientesPorServidor();
 void crearGrafo(int);
 
 int main() {
-    leerArchivos();
-    crearGrafo(cantServidores); 
+    crearGrafo(); 
+    leerArchivos();    
     menu();
     return 0;
 }
@@ -52,8 +53,9 @@ void mostrarClientesPorServidor(){
     }
 }
 
-void crearGrafo(int cantServidores){
-    
+void crearGrafo(){
+    Grafo* grafo = new Grafo();
+
 }
 
 void leerArchivos(){
@@ -64,7 +66,6 @@ void leerArchivos(){
     getline(servidores, linea);
     //leemos todas las lineas
     NodoServidores* cabecera = new NodoServidores("","","");
-    cantServidores = 0;
     while(getline(servidores, linea)){
         stringstream stream(linea);
         string id,nombre,tipo;
@@ -85,7 +86,6 @@ void leerArchivos(){
         cabecera->imprimir();
         cout<<endl;
         cout<<"---------------------------------"<<endl;*/
-        cantServidores++;
     }
     servidores.close();
     

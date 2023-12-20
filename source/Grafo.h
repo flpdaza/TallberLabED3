@@ -1,33 +1,32 @@
 #pragma once
 #include <iostream>
-#include <limits>
-
+#include <limits.h>
 
 #define INF INT_MAX;
 
 using namespace std;
 
-class Grafo(){
-    int matriz[][];
+class Grafo{
+    private:
+    int matriz[299][299];
     public:
-    Grafo(int);
+    Grafo();
     void agregarConexion(int, int, int);
     void bellmanFord(int);
 };
 
-Grafo::Grafo(int cantServidores){
-    this -> matriz[cantServidores][cantServidores];
-    for(int i = 0; i < cantServidores; i++){
-        for(int j = 0; j < cantServidores; j++){
+Grafo::Grafo(){
+    for(int i = 0; i < 299; i++){
+        for(int j = 0; j < 299; j++){
             matriz[i][j] = INF;
         }
     }
-
-    for(int i = 0; i < cantServidores; i++){
+    for(int i = 0; i < 299; i++){
         matriz[i][i] = 0;
     }
 }
 
-void agregarConexion(int origen, int destino, int peso){
-    matriz[origen][destino] = peso;
+
+void Grafo::agregarConexion(int origen, int destino, int peso){
+   matriz[origen][destino] = peso;
 }
