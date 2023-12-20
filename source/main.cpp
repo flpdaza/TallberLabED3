@@ -18,11 +18,11 @@ using namespace std;
 void leerArchivos();
 void menu();
 void mostrarClientesPorServidor();
-void crearGrafo(int);
+void crearGrafo();
 
-int main() {
-    crearGrafo(); 
+int main() {    
     leerArchivos();    
+    crearGrafo(); 
     menu();
     return 0;
 }
@@ -55,7 +55,8 @@ void mostrarClientesPorServidor(){
 
 void crearGrafo(){
     Grafo* grafo = new Grafo();
-
+    
+    
 }
 
 void leerArchivos(){
@@ -104,7 +105,24 @@ void leerArchivos(){
         getline(stream, distancia, delimitador2);
         Conexion conexion(idCliente,idServidor,stoi(velocidad),stoi(distancia));
         for(NodoServidores* server : servers){
-            if(server->getId() == idServidor){
+            if(server->getId() == idCliente && server->getTipo() == "cliente"){
+                for(NodoServidores* server2 : servers){
+                    if(server2->getId() == idServidor && server2->getTipo() == "router"){
+                        server->agregarConexion(conexion);
+                    }
+                }
+            }else if(server->getId() == idCliente){
+                server->agregarConexion(conexion);
+            }
+        }
+         for(NodoServidores* server : servers){
+            if(server->getId() == idServidor && server->getTipo() == "cliente"){
+                for(NodoServidores* server2 : servers){
+                    if(server2->getId() == idCliente && server2->getTipo() == "router"){
+                        server->agregarConexion(conexion);
+                    }
+                }
+            }else if(server->getId() == idServidor){
                 server->agregarConexion(conexion);
             }
         }
