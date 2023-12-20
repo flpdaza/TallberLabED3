@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-
+#include <list>
+#include "Conexion.h"
 using namespace std;
 
 class NodoServidores {
@@ -9,6 +10,7 @@ class NodoServidores {
         string nombre;
         string tipo;
         NodoServidores* siguiente;
+        list <Conexion> conexiones;
     public:
         NodoServidores(string id, string nombre, string tipo);
         string getId();
@@ -17,6 +19,8 @@ class NodoServidores {
         NodoServidores* getSiguiente();
         void setSiguiente(NodoServidores* siguiente);
         void imprimir();
+        void agregarConexion(Conexion conexion);
+        void getConexiones();
 };
 
 NodoServidores::NodoServidores(string id, string nombre, string tipo) {
@@ -24,6 +28,7 @@ NodoServidores::NodoServidores(string id, string nombre, string tipo) {
     this->nombre = nombre;
     this->tipo = tipo;
     this->siguiente = NULL;
+    this->conexiones = list<Conexion>();
 }
 
 string NodoServidores::getId() {
@@ -52,3 +57,12 @@ void NodoServidores::imprimir() {
     cout << "Tipo: " << this->tipo << endl;
 }
 
+void NodoServidores::agregarConexion(Conexion conexion) {
+    this->conexiones.push_back(conexion);
+}
+
+void NodoServidores::getConexiones() {
+    for(Conexion conexion : this->conexiones) {
+        conexion.imprimir();
+    }
+}
