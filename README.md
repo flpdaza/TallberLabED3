@@ -1,7 +1,6 @@
 # TallberLabED3
 
-Autores: Felipe Daza Cortes
-         Miguel Galleguillos Nuñez
+Autores: Felipe Daza Cortes - Miguel Galleguillos Nuñez
          
 #Creacion de archivos
 Para saber si existen los archivos csv debe revisar la carpeta archivos que esta dentro de la carpeta source, para hacer esto ejecutamos "cd source", luego ingresamos "cd archivos", cuando estemos situados en esta carpeta ejecutamos "ls" para ver si existen los archivos "servidores.csv" y "conexiones.csv" . En caso de no exitir y estando situados en esta misma carpeta de archivos ejecutar los siguientes comandos para crear los archivos
