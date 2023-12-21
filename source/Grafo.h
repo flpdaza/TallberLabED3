@@ -16,6 +16,7 @@ class Grafo{
     void agregarConexion(string, string, double);
     void mostrarCamino(string, string, double);
     void imprimir();
+    void bellmanFord(int);
 };
 
 Grafo::Grafo(){
@@ -59,5 +60,34 @@ void Grafo::imprimir(){
             cout<<matriz[i][j]<<" ";
         }
         cout<<endl;
+    }
+}
+//Funcion que calcula el camino mas corto entre dos servidores
+void Grafo::bellmanFord(int source){
+    int V = 299;
+    int E = 299;
+    int dist[V];
+    for(int i = 0; i < V; i++){
+        dist[i] = INT_MAX;
+    }
+    dist[source] = 0;
+    for(int i = 0; i < V-1; i++){
+        for(int j = 0; j < E; j++){
+            if(dist[matriz[j][0]] + matriz[j][2] < dist[matriz[j][1]]){
+                dist[matriz[j][1]] = dist[matriz[j][0]] + matriz[j][2];
+            }
+        }
+    }
+    for(int i = 0; i < E; i++){
+        int x = matriz[i][0];
+        int y = matriz[i][1];
+        int peso = matriz[i][2];
+        if(dist[x] != INT_MAX && dist[x] + peso < dist[y]){
+            cout<<"El grafo contiene un ciclo de peso negativo"<<endl;
+        }
+    }
+   
+    for(int i = 0; i < V; i++){
+        cout<<i<<"\t\t"<<dist[i]<<endl;
     }
 }
