@@ -40,7 +40,7 @@ int Conexion::getVelocidad() {
 int Conexion::getDistancia() {
     return this->distancia;
 }
-
+//Funcion que imprime los datos de una conexion
 void Conexion::imprimir() {
     cout << "idCliente: " << this->idCliente << endl;
     cout << "idServidor: " << this->idServidor << endl;

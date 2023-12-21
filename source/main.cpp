@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <list>
+#include <cmath>
 #include "Grafo.h"
 #include "NodoServidores.h"
 #include "Conexion.h"
@@ -12,11 +13,15 @@
 #define SERVIDORES "archivos/servidores.csv"
 
 list <NodoServidores*> servers;
+list <Conexion*> conections;
+
 using namespace std;
 
 void leerArchivos();
 void menu();
 void mostrarConexionesPorServidor();
+void mostrarConexiones();
+void calcularTiempo();
 
 int main() {    
     leerArchivos();    
@@ -30,35 +35,109 @@ void menu(){
     do{
         cout<<"Bienvenido al sistema de administracion de servidores"<<endl;
         cout<<"1. Mostrar conexiones por servidor"<<endl;
-        cout<<"2. Calcular ruta"<<endl;
+        cout<<"2. Mostrar conexiones"<<endl;
+        cout<<"3. Calcular ruta"<<endl;
         cout<<"Elija una opcion: "<<endl;
         cin>>opcion;
         if(opcion == 1){
             mostrarConexionesPorServidor();
         }else if(opcion==2){
-
+            mostrarConexiones();
+        }else if(opcion == 3){
+            calcularTiempo();
         }
 
     }while(opcion != 0);
     
 }
-
+//Funcion que muestra las conexiones puntuales de un servidor
 void mostrarConexionesPorServidor(){
-    
+    string id;
+    cout<<"Ingrese el id del servidor: "<<endl;
+    cin>>id;
     for(NodoServidores* server : servers){
-        if(server->getId() == "0"){
-            cout<<"Servidor: "<<server->getNombre()<<endl;
-        cout<<"Clientes: "<<endl;
-        server->imprimirNodos();                 
-        cout<<endl;
-        cout<<"---------------------------------"<<endl; 
+        if(server->getId() == id){
+            cout<<endl;
+            cout<<"Servidor: "<<server->getNombre()<<". Tipo: "<<server->getTipo()<<endl;
+            cout<<"Conexiones del servidor: "<<endl;
+            cout<<endl;
+            server->imprimirNodos();                 
+            cout<<endl;
+            
+        }
+        
+    }
+}
+//Funcion que calcula el tiempo de envio de un archivo y lo envía al grafo para calcular la ruta
+void calcularTiempo(){
+    int peso;
+            string origen;
+            string destino;
+            cout<<"Ingrese peso archivo en MB: "<<endl;
+            cin>>peso;
+            cout<<"Ingrese el id del servidor de origen: "<<endl;
+            cin>>origen;
+            cout<<"Ingrese el id del servidor de destino: "<<endl;
+            cin>>destino;
+            double cantPartes;
+            double velocidad;
+            double distancia;
+            double tiempo;
+            double tiempoTotal = 0;
+            bool encontrado = false;
+            list<NodoServidores*> aux;
+            for(NodoServidores* server: servers){
+                if(server->getId() == origen && server->getTipo() == "cliente"){
+                    aux = server->getNodos();
+                    for(NodoServidores* server2: aux){
+                        if(server2->getId() == destino){
+                            encontrado = true;
+                            for(Conexion* conect : conections){
+                                if(conect->getIdCliente() == origen){
+
+                                distancia = conect->getDistancia();
+                                velocidad = conect->getVelocidad();
+                                cantPartes = peso/velocidad;
+                                }        
+                            }   
+                        }
+
+                    }
+                    
+                }             
+                        
+            }
+            
+            if(encontrado){
+                tiempo = (peso/velocidad)*distancia;
+                Grafo* grafo = new Grafo();
+                grafo->agregarConexion(origen,destino,tiempo);
+                grafo -> mostrarCamino(origen, destino, cantPartes);
+            }else{
+                cout<<endl;
+                cout<<"No se puede enviar el archivo"<<endl;
+                cout<<endl;
+            }
+}
+
+//Funcion que muestra detalladamente las conexiones de un servidor, es decir incluye velocidad, distancia, etc.
+void mostrarConexiones(){
+    string id;
+    cout<<"Ingrese el id del servidor: "<<endl;
+    cin>>id;
+    for(Conexion* conect : conections){
+        if(conect->getIdCliente() == id){
+            cout<<"Servidor: "<<conect->getIdCliente()<<endl;
+            cout<<"Conexiones: "<<endl;
+            conect->imprimir();                 
+            cout<<endl;
+            cout<<"---------------------------------"<<endl; 
         }
         
     }
 }
 
-
-
+//Funcion que lee los archivos y los guarda en listas
 void leerArchivos(){
     ifstream servidores(SERVIDORES);
     string linea;
@@ -98,7 +177,8 @@ void leerArchivos(){
         getline(stream, idServidor, delimitador2);
         getline(stream, velocidad, delimitador2);
         getline(stream, distancia, delimitador2);
-        
+        Conexion* conexion = new Conexion(idCliente,idServidor,stoi(velocidad),stoi(distancia));
+        conections.push_back(conexion);
         for(NodoServidores* server : servers){
             if(server->getId() == idCliente && server->getTipo() == "cliente"){
                 for(NodoServidores* server2 : servers){

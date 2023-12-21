@@ -52,23 +52,25 @@ NodoServidores* NodoServidores::getSiguiente() {
 void NodoServidores::setSiguiente(NodoServidores* siguiente) {
     this->siguiente = siguiente;
 }
-
+//Funcion que imprime los datos de un servidor
 void NodoServidores::imprimir() {
     cout << "id: " << this->id << endl;
     cout << "Nombre: " << this->nombre << endl;
     cout << "Tipo: " << this->tipo << endl;
+    cout<<"--------------------------------"<<endl;
+    cout<<endl;
 }
-
+//Funcion que agrega una conexion a la lista de conexiones de un servidor
 void NodoServidores::agregarConexion(NodoServidores* conexion) {
     this->Nodos.push_back(conexion);
 }
-
+//Funcion que imprime los datos de las conexiones de un servidor
 void NodoServidores::imprimirNodos() {
     for(NodoServidores* conexion : this->Nodos) {
         conexion -> imprimir();
     }
 }
-
+//Funcion que retorna la lista de conexiones de un servidor
 list<NodoServidores*> NodoServidores::getNodos() {
     return this->Nodos;
 }
