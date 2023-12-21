@@ -11,18 +11,16 @@
 #define CONEXIONES "archivos/conexiones.csv"
 #define SERVIDORES "archivos/servidores.csv"
 
-const int cantServidores = 299;
 list <NodoServidores*> servers;
 using namespace std;
 
 void leerArchivos();
 void menu();
 void mostrarClientesPorServidor();
-void crearGrafo();
 
 int main() {    
     leerArchivos();    
-    crearGrafo(); 
+     
     menu();
     return 0;
 }
@@ -32,10 +30,14 @@ void menu(){
     do{
         cout<<"Bienvenido al sistema de administracion de servidores"<<endl;
         cout<<"1. Mostrar clientes por servidor"<<endl;
+        cout<<"2. Calcular ruta"<<endl;
+        cout<<"3. Buscar ruta"<<endl;
         cout<<"Elija una opcion: "<<endl;
         cin>>opcion;
         if(opcion == 1){
             mostrarClientesPorServidor();
+        }else if(opcion==2){
+
         }
 
     }while(opcion != 0);
@@ -45,19 +47,18 @@ void menu(){
 void mostrarClientesPorServidor(){
     
     for(NodoServidores* server : servers){
-        cout<<"Servidor: "<<server->getNombre()<<endl;
+        if(server->getId() == "0"){
+            cout<<"Servidor: "<<server->getNombre()<<endl;
         cout<<"Clientes: "<<endl;
-        server->getConexiones();                 
+        server->imprimirConexiones();                 
         cout<<endl;
         cout<<"---------------------------------"<<endl; 
+        }
+        
     }
 }
 
-void crearGrafo(){
-    Grafo* grafo = new Grafo();
-    
-    
-}
+
 
 void leerArchivos(){
     ifstream servidores(SERVIDORES);
@@ -74,7 +75,7 @@ void leerArchivos(){
         getline(stream, nombre, delimitador);
         getline(stream, tipo, delimitador);
 
-        if(cabecera->getId().empty()){
+        if(cabecera->getId()==""){
             cabecera = new NodoServidores(id,nombre,tipo);
             servers.push_back(cabecera);          
         }else{
@@ -82,11 +83,6 @@ void leerArchivos(){
             cabecera = cabecera->getSiguiente();
             servers.push_back(cabecera);
         }
-
-        /*cout<<"Conexion "<<cantServidores<<endl;
-        cabecera->imprimir();
-        cout<<endl;
-        cout<<"---------------------------------"<<endl;*/
     }
     servidores.close();
     
@@ -103,27 +99,38 @@ void leerArchivos(){
         getline(stream, idServidor, delimitador2);
         getline(stream, velocidad, delimitador2);
         getline(stream, distancia, delimitador2);
-        Conexion conexion(idCliente,idServidor,stoi(velocidad),stoi(distancia));
+        
         for(NodoServidores* server : servers){
             if(server->getId() == idCliente && server->getTipo() == "cliente"){
                 for(NodoServidores* server2 : servers){
                     if(server2->getId() == idServidor && server2->getTipo() == "router"){
-                        server->agregarConexion(conexion);
+                        server->agregarConexion(server2);
                     }
                 }
             }else if(server->getId() == idCliente){
-                server->agregarConexion(conexion);
+                for (NodoServidores* server2: servers){
+                    if(server2->getId() == idServidor){
+                        server->agregarConexion(server2);
+                    }
+                    
+                }
+                
             }
         }
          for(NodoServidores* server : servers){
             if(server->getId() == idServidor && server->getTipo() == "cliente"){
                 for(NodoServidores* server2 : servers){
                     if(server2->getId() == idCliente && server2->getTipo() == "router"){
-                        server->agregarConexion(conexion);
+                        server->agregarConexion(server2);
                     }
                 }
             }else if(server->getId() == idServidor){
-                server->agregarConexion(conexion);
+                for(NodoServidores* server2:servers){
+                    if(server2->getId() == idCliente){
+                        server->agregarConexion(server2);
+                    }
+                }
+                
             }
         }
     }
