@@ -14,3 +14,7 @@ El programa quisimos estructurarlo en 4 clases, llamadas "main.cpp" , "Grafo.h" 
 
 La aplicacion cuenta con un menu de 2 opciones las cuales son: 1-Mostrar conexiones por servidor y 2-Calcular la ruta.
 
+El algoritmo de Bellman-Ford es un algoritmo utilizado para encontrar los caminos más cortos desde un único origen a todos los demás nodos en un grafo ponderado, incluso si hay aristas con pesos negativos. El algoritmo también puede detectar ciclos negativos en el grafo.
+
+
+
