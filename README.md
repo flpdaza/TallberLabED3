@@ -12,9 +12,11 @@ Para compilar el programa debemos estar situados en la carpeta source y ejecutam
 
 El programa quisimos estructurarlo en 4 clases, llamadas "main.cpp" , "Grafo.h" , "NodoServidores.h" y "Conexiones.h", estas clases en conjunto trabajan para encontrar la ruta mas corta entre dos clientes a traves del algortimo Bellman-Ford en grafos con datos pedidos al usuario.
 
-La aplicacion cuenta con un menu de 2 opciones las cuales son: 1-Mostrar conexiones por servidor y 2-Calcular la ruta.
+La aplicacion cuenta con un menu de 3 opciones las cuales son: 1-Mostrar conexiones por servidor y 2-Calcular la ruta y 3- Buscar ruta.
 
 El algoritmo de Bellman-Ford es un algoritmo utilizado para encontrar los caminos más cortos desde un único origen a todos los demás nodos en un grafo ponderado, incluso si hay aristas con pesos negativos. El algoritmo también puede detectar ciclos negativos en el grafo.
+
+
 
 
 
