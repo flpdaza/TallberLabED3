@@ -16,7 +16,7 @@ using namespace std;
 
 void leerArchivos();
 void menu();
-void mostrarClientesPorServidor();
+void mostrarConexionesPorServidor();
 
 int main() {    
     leerArchivos();    
@@ -29,13 +29,12 @@ void menu(){
     int opcion;
     do{
         cout<<"Bienvenido al sistema de administracion de servidores"<<endl;
-        cout<<"1. Mostrar clientes por servidor"<<endl;
+        cout<<"1. Mostrar conexiones por servidor"<<endl;
         cout<<"2. Calcular ruta"<<endl;
-        cout<<"3. Buscar ruta"<<endl;
         cout<<"Elija una opcion: "<<endl;
         cin>>opcion;
         if(opcion == 1){
-            mostrarClientesPorServidor();
+            mostrarConexionesPorServidor();
         }else if(opcion==2){
 
         }
@@ -44,13 +43,13 @@ void menu(){
     
 }
 
-void mostrarClientesPorServidor(){
+void mostrarConexionesPorServidor(){
     
     for(NodoServidores* server : servers){
         if(server->getId() == "0"){
             cout<<"Servidor: "<<server->getNombre()<<endl;
         cout<<"Clientes: "<<endl;
-        server->imprimirConexiones();                 
+        server->imprimirNodos();                 
         cout<<endl;
         cout<<"---------------------------------"<<endl; 
         }

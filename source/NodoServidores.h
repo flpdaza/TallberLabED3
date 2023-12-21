@@ -10,7 +10,8 @@ class NodoServidores {
         string nombre;
         string tipo;
         NodoServidores* siguiente;
-        list <NodoServidores*> conexiones;
+        list <NodoServidores*> Nodos;
+        list <Conexion*> conexiones;
     public:
         NodoServidores(string id, string nombre, string tipo);
         string getId();
@@ -20,8 +21,8 @@ class NodoServidores {
         void setSiguiente(NodoServidores* siguiente);
         void imprimir();
         void agregarConexion(NodoServidores* conexion);
-        list<NodoServidores*> getConexiones();
-        void imprimirConexiones();
+        list<NodoServidores*> getNodos();
+        void imprimirNodos();
 };
 
 NodoServidores::NodoServidores(string id, string nombre, string tipo) {
@@ -29,7 +30,7 @@ NodoServidores::NodoServidores(string id, string nombre, string tipo) {
     this->nombre = nombre;
     this->tipo = tipo;
     this->siguiente = NULL;
-    this->conexiones = list<NodoServidores*>();
+    this->Nodos = list<NodoServidores*>();
 }
 
 string NodoServidores::getId() {
@@ -59,15 +60,15 @@ void NodoServidores::imprimir() {
 }
 
 void NodoServidores::agregarConexion(NodoServidores* conexion) {
-    this->conexiones.push_back(conexion);
+    this->Nodos.push_back(conexion);
 }
 
-void NodoServidores::imprimirConexiones() {
-    for(NodoServidores* conexion : this->conexiones) {
+void NodoServidores::imprimirNodos() {
+    for(NodoServidores* conexion : this->Nodos) {
         conexion -> imprimir();
     }
 }
 
-list<NodoServidores*> NodoServidores::getConexiones() {
-    return this->conexiones;
+list<NodoServidores*> NodoServidores::getNodos() {
+    return this->Nodos;
 }
